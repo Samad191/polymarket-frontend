@@ -209,11 +209,14 @@ export function PolymarketDashboard() {
     return `${day}/${month}/${String(year)}`;
   }
 
+  const [leaderboard, setLeaderboard] = useState<any[]>([]);
+
   useEffect(() => {
       const fetchLeaderboard = async () => {
         const response = await fetch('https://data-api.polymarket.com/v1/leaderboard?timePeriod=day&orderBy=PNL&limit=1&offset=0&user=0xa9456cecF9d6fb545F6408E0e2DbBFA307d7BaE6&category=overall');
         const data = await response.json();
         console.log('Leaderboard', data);
+        setLeaderboard(data);
       }
       fetchLeaderboard();
   }, [userTrades]);
@@ -223,8 +226,8 @@ export function PolymarketDashboard() {
       <div className="max-w-7xl mx-auto space-y-8">
         {/* Header */}
         <div className="space-y-2">
-          <h1 className="text-4xl font-bold text-white font-serif">Polymarket Trading Dashboard</h1>
-          <p className="text-slate-400 font-serif">Real-time trading statistics and market analysis</p>
+          <h1 className="text-4xl font-bold text-white">Polymarket Trading Dashboard</h1>
+          <p className="text-slate-400">Real-time trading statistics and market analysis</p>
         </div>
 
         {/* Stats Cards */}
@@ -234,7 +237,7 @@ export function PolymarketDashboard() {
               <CardTitle className="text-sm font-medium text-slate-400">Total Trades</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-white">{totalTrades}</div>
+              <div className="text-3xl font-bold text-white">Dummy</div>
               <p className="text-xs text-slate-500 mt-1">Transactions recorded</p>
             </CardContent>
           </Card>
@@ -244,7 +247,7 @@ export function PolymarketDashboard() {
               <CardTitle className="text-sm font-medium text-slate-400">Total Volume</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-white">${totalVolume}</div>
+              <div className="text-3xl font-bold text-white">Dummy</div>
               <p className="text-xs text-slate-500 mt-1">USD value traded</p>
             </CardContent>
           </Card>
@@ -254,7 +257,7 @@ export function PolymarketDashboard() {
               <CardTitle className="text-sm font-medium text-slate-400">Average Price</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-white">${averagePrice}</div>
+              <div className="text-3xl font-bold text-white">Dummy</div>
               <p className="text-xs text-slate-500 mt-1">Per share</p>
             </CardContent>
           </Card>
@@ -263,16 +266,15 @@ export function PolymarketDashboard() {
             className={`border-slate-700 bg-slate-800/50 backdrop-blur ${totalPL >= 0 ? "border-green-500/30" : "border-red-500/30"}`}
           >
             <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-slate-400">Total P/L</CardTitle>
+              <CardTitle className="text-sm font-medium text-slate-400">Daily P/L</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className={`text-3xl font-bold ${totalPL >= 0 ? "text-green-400" : "text-red-400"}`}>
-                {totalPL >= 0 ? "+" : ""}
-                {totalPL.toFixed(4)}
-              </div>
-              <p className={`text-xs mt-1 ${totalPL >= 0 ? "text-green-600" : "text-red-600"}`}>
-                {((totalPL / totalCostBasis) * 100)}% return
-              </p>
+              {leaderboard && leaderboard[0] && leaderboard[0].pnl && (
+                <div className={`text-3xl font-bold ${leaderboard[0].pnl >= 0 ? "text-green-400" : "text-red-400"}`}>
+                  $ {leaderboard[0].pnl.toFixed(2)}
+                </div>
+              )}
+     
             </CardContent>
           </Card>
         </div>
