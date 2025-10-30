@@ -265,7 +265,7 @@ export function PolymarketDashboard() {
           <Card
             className={`border-slate-700 bg-slate-800/50 backdrop-blur ${totalPL >= 0 ? "border-green-500/30" : "border-red-500/30"}`}
           >
-            <CardHeader className="pb-3">
+            <CardHeader className="pb-3"> 
               <CardTitle className="text-sm font-medium text-slate-400">Daily P/L</CardTitle>
             </CardHeader>
             <CardContent>
